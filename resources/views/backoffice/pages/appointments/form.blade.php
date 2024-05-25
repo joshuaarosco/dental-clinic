@@ -104,6 +104,9 @@
             <div class="col-md-6">
                 <div class="form-group {{$errors->has('start_time')?'error':null}} start-date">
                     <label class="form-label">Start Time <span class="text-danger">*</span></label>
+                    @if(auth()->user()->type != 'patient')
+                    <input type="hidden" name="start_time" value="{{date('H',strtotime($appointment->start))}}">
+                    @endif
                     <select name="start_time" id="start-time" class="form-control {{ auth()->user()->type != 'patient'?'bg-secondary':'input-select' }}" {{ auth()->user()->type != 'patient'?'disabled':'' }}>
                         <!-- {!!date('H') > 8 ? 'disabled' : ''!!} -->
                         @foreach($time as $index => $hour)
@@ -123,6 +126,9 @@
             <div class="col-md-6">
                 <div class="form-group {{$errors->has('end_time')?'error':null}} end-date">
                     <label class="form-label">End Time <span class="text-danger">*</span></label>
+                    @if(auth()->user()->type != 'patient')
+                    <input type="hidden" name="end_time" value="{{date('H',strtotime($appointment->end))}}">
+                    @endif
                     <select name="end_time" id="end-time" class="form-control {{ auth()->user()->type != 'patient'?'bg-secondary':'input-select' }}" {{ auth()->user()->type != 'patient'?'disabled':'' }}>
                         @foreach($time as $index => $hour)
                         @if($appointment AND date('H', strtotime($appointment->end)) == $index OR old('end_time') == $index)
